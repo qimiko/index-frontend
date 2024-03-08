@@ -10,6 +10,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import * as Tabs from '$lib/components/ui/tabs';
 
+	import { fromBase } from '$lib/utils';
 	import { IndexService } from '$lib/api/index-service';
 	import type { Mod, ModVersion } from '$lib/api/models';
 	import ModItem from '$lib/components/ModItem.svelte';
@@ -336,7 +337,11 @@
 					{/if}
 				</div>
 
-				<a href={`/?query=${encodeURIComponent(`developer:${mod.developers.owner.username}`)}`}>
+				<a
+					href={fromBase(
+						`/?query=${encodeURIComponent(`developer:${mod.developers.owner.username}`)}`
+					)}
+				>
 					Other mods by this developer
 				</a>
 
@@ -368,7 +373,7 @@
 							<h4>Dependencies</h4>
 							{#each version.dependencies as dependency (dependency.modId)}
 								<p>
-									<a href={`/mods/${dependency.modId}`} class="link">
+									<a href={fromBase(`/mods/${dependency.modId}`)} class="link">
 										({dependency.importance.substring(0, 3)})
 										{dependency.modId}
 										{dependency.version}
@@ -387,7 +392,7 @@
 							<h4>Incompatibilities</h4>
 							{#each version.incompatibilities as incompatibility (incompatibility.modId)}
 								<p>
-									<a href={`/mods/${incompatibility.modId}`} class="link">
+									<a href={fromBase(`/mods/${incompatibility.modId}`)} class="link">
 										({incompatibility.importance[0]})
 										{incompatibility.modId}
 										{incompatibility.version}

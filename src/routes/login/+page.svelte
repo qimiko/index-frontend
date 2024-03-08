@@ -8,6 +8,7 @@
 	import { login } from '$lib/stores/login.js';
 	import { token } from '$lib/stores/token.js';
 	import { user } from '$lib/stores/user';
+	import { fromBase } from '$lib/utils';
 	import Button from '$lib/components/ui/button/button.svelte';
 
 	const index = IndexService.getContext();
@@ -99,7 +100,7 @@
 	{:else if $user}
 		<p>
 			You're logged in! <br />
-			<a href="/" class="link">View mod listing</a>
+			<a href={fromBase('/')} class="link">View mod listing</a>
 		</p>
 	{:else}
 		<div>Waiting for response from index...</div>

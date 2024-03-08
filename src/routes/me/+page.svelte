@@ -17,6 +17,7 @@
 	import ModItem from '$lib/components/ModItem.svelte';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { user } from '$lib/stores/user';
+	import { fromBase } from '$lib/utils';
 
 	const index = IndexService.getContext();
 
@@ -138,7 +139,7 @@
 
 <div class="container">
 	{#if !currentUser}
-		<p>You must be <a href="/login">logged in</a> to view this page.</p>
+		<p>You must be <a href={fromBase('/login')}>logged in</a> to view this page.</p>
 	{:else}
 		<Card.Root class="max-w-sm">
 			<Card.Header>

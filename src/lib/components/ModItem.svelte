@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import { IndexService } from '$lib/api/index-service';
 	import placeholderLogo from '$lib/assets/logoPlaceholder.png';
+	import { fromBase } from '$lib/utils';
 	import TagRow from './TagRow.svelte';
 	import ModIcon from './ModIcon.svelte';
 	import DeveloperLine from './DeveloperLine.svelte';
@@ -18,7 +19,7 @@
 
 	let mod: Mod | SimpleMod | null = null;
 	let versionObj: ModVersion | SimpleModVersion | null = null;
-	const baseUrl = `/mods/${modId}`;
+	const baseUrl = fromBase(`/mods/${modId}`);
 	const url = version == 'latest' ? baseUrl : `${baseUrl}?version=${version}`;
 
 	onMount(async () => {

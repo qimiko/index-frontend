@@ -5,6 +5,7 @@
 	import { IndexService } from '$lib/api/index-service.js';
 	import { token } from '$lib/stores/token.js';
 	import { user } from '$lib/stores/user.js';
+	import { fromBase } from '$lib/utils';
 
 	import '../app.pcss';
 
@@ -30,7 +31,7 @@
 
 <nav class="mb-2 flex">
 	<div class="nav-link">
-		<a href="/">
+		<a href={fromBase('/')}>
 			<Fa icon={faList} class="inline pr-1" fw /> Mod Listing
 		</a>
 	</div>
@@ -39,7 +40,7 @@
 
 	<div class="nav-link">
 		{#if $user}
-			<a href="/me">
+			<a href={fromBase('/me')}>
 				<Fa icon={faUser} class="inline" fw />
 				{$user.displayName}
 			</a>
@@ -47,7 +48,7 @@
 			<Fa icon={faSpinner} class="inline" spin />
 			Loading...
 		{:else}
-			<a href="/login">
+			<a href={fromBase('/login')}>
 				<Fa icon={faUser} class="inline" fw /> Login
 			</a>
 		{/if}

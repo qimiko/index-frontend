@@ -2,6 +2,7 @@ import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { cubicOut } from 'svelte/easing';
 import type { TransitionConfig } from 'svelte/transition';
+import { base } from '$app/paths';
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
@@ -54,3 +55,7 @@ export const flyAndScale = (
 		easing: cubicOut
 	};
 };
+
+export function fromBase(path: string) {
+	return `${base}${path}`;
+}
