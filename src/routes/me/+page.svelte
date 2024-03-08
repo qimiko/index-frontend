@@ -17,6 +17,7 @@
 	import ModItem from '$lib/components/ModItem.svelte';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { user } from '$lib/stores/user';
+	import { token } from '$lib/stores/token';
 	import { fromBase } from '$lib/utils';
 
 	const index = IndexService.getContext();
@@ -43,6 +44,8 @@
 	async function onLogout() {
 		try {
 			await index.logout();
+			token.set(null);
+			user.set(null);
 		} catch (_) {
 			// ...
 		}
@@ -55,6 +58,8 @@
 	async function onLogoutAll() {
 		try {
 			await index.logoutAll();
+			token.set(null);
+			user.set(null);
 		} catch (_) {
 			// ...
 		}
