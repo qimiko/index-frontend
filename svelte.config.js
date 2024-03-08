@@ -9,7 +9,10 @@ const config = {
 		adapter: adapter({
 			fallback: '404.html',
 			strict: true
-		})
+		}),
+		paths: {
+			base: process.env.GITHUB_ACTIONS ? '/index-frontend' : ''
+		}
 	}
 };
 
