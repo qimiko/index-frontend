@@ -9,6 +9,7 @@
 
 	import { Button } from '$lib/components/ui/button';
 	import * as Tabs from '$lib/components/ui/tabs';
+	import Badge from '$lib/components/ui/badge/badge.svelte';
 
 	import { fromBase } from '$lib/utils';
 	import { IndexService } from '$lib/api/index-service';
@@ -17,7 +18,7 @@
 	import ModIcon from '$lib/components/ModIcon.svelte';
 	import DeveloperLine from '$lib/components/DeveloperLine.svelte';
 	import TagRow from '$lib/components/TagRow.svelte';
-	import Badge from '$lib/components/ui/badge/badge.svelte';
+	import { user } from '$lib/stores/user';
 
 	const index = IndexService.getContext();
 
@@ -212,6 +213,9 @@
 			loadMod();
 		});
 	});
+
+	let currentUser = $user;
+	$: currentUser = $user;
 </script>
 
 <div class="container mx-auto">
@@ -234,41 +238,43 @@
 						<Fa icon={faDownload} class="inline pr-1" />
 						Download
 					</Button>
-					<Button variant="secondary" disabled={performingAction} on:click={performFeature}>
-						{#if performingFeatureAction}
-							<Fa icon={faSpinner} class="mr-1 inline" spin />
-						{:else}
-							<Fa icon={faStar} class="mr-1 inline" />
-						{/if}
-						{#if mod.featured}
-							Unfeature
-						{:else}
-							Feature
-						{/if}
-					</Button>
-					{#if !version.validated}
-						<Button
-							variant="outline"
-							disabled={performingAction}
-							on:click={() => performValidation(true)}
-						>
-							{#if performingAcceptAction}
+					{#if currentUser?.admin}
+						<Button variant="secondary" disabled={performingAction} on:click={performFeature}>
+							{#if performingFeatureAction}
 								<Fa icon={faSpinner} class="mr-1 inline" spin />
+							{:else}
+								<Fa icon={faStar} class="mr-1 inline" />
 							{/if}
-							Accept
-						</Button>
-					{/if}
-					{#if version.validated || version.validated == undefined}
-						<Button
-							variant="outline"
-							disabled={performingAction}
-							on:click={() => performValidation(false)}
-						>
-							{#if performingRejectAction}
-								<Fa icon={faSpinner} class="mr-1 inline" spin />
+							{#if mod.featured}
+								Unfeature
+							{:else}
+								Feature
 							{/if}
-							Reject
 						</Button>
+						{#if !version.validated}
+							<Button
+								variant="outline"
+								disabled={performingAction}
+								on:click={() => performValidation(true)}
+							>
+								{#if performingAcceptAction}
+									<Fa icon={faSpinner} class="mr-1 inline" spin />
+								{/if}
+								Accept
+							</Button>
+						{/if}
+						{#if version.validated || version.validated == undefined}
+							<Button
+								variant="outline"
+								disabled={performingAction}
+								on:click={() => performValidation(false)}
+							>
+								{#if performingRejectAction}
+									<Fa icon={faSpinner} class="mr-1 inline" spin />
+								{/if}
+								Reject
+							</Button>
+						{/if}
 					{/if}
 				</div>
 				{#if actionError}

@@ -2,19 +2,21 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 
+	import Fa from 'svelte-fa';
+	import { faSearch } from '@fortawesome/free-solid-svg-icons';
+
 	import { Input, type FormInputEvent } from '$lib/components/ui/input';
 	import { Button } from '$lib/components/ui/button';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select';
+	import * as Pagination from '$lib/components/ui/pagination';
 
 	import { IndexService } from '$lib/api/index-service';
 	import type { ModID, Platform } from '$lib/api/models';
 	import ModItem from '$lib/components/ModItem.svelte';
-	import * as Pagination from '$lib/components/ui/pagination';
-	import Fa from 'svelte-fa';
-	import { faSearch } from '@fortawesome/free-solid-svg-icons';
 	import { ModSort } from '$lib/api/index-repository';
+	import { user } from '$lib/stores/user';
 
 	const index = IndexService.getContext();
 
@@ -152,6 +154,9 @@
 	let filtersChanged = false;
 	$: modSort, showPending, modQuery, (filtersChanged = true);
 	$: modSort, showPending, modQuery, currentPage, loadMods();
+
+	let currentUser = $user;
+	$: currentUser = $user;
 </script>
 
 <div class="container mx-auto">
@@ -181,15 +186,17 @@
 				</Select.Content>
 			</Select.Root>
 
-			<div class="flex flex-row gap-1 items-center">
-				<Checkbox id="filter-unverified" bind:checked={showPending} />
-				<Label
-					for="filter-unverified"
-					class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-				>
-					Show unverified mods
-				</Label>
-			</div>
+			{#if currentUser?.admin}
+				<div class="flex flex-row gap-1 items-center">
+					<Checkbox id="filter-unverified" bind:checked={showPending} />
+					<Label
+						for="filter-unverified"
+						class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+					>
+						Show unverified mods
+					</Label>
+				</div>
+			{/if}
 		</div>
 
 		{#if loadError}
