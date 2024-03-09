@@ -253,7 +253,7 @@
 				<i>No mods found.</i>
 			{:else}
 				{#each selfModListing as mod (mod.id)}
-					<ModItem modId={mod.id} />
+					<ModItem modId={mod.id} showDownloadCount={!showNeedsValidation} />
 				{/each}
 			{/if}
 		</div>

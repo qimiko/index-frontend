@@ -209,7 +209,7 @@
 	</div>
 
 	{#each mods as mod}
-		<ModItem modId={mod}></ModItem>
+		<ModItem modId={mod} showDownloadCount={!showPending} />
 	{/each}
 
 	{#if mods.length > 0}
