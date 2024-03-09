@@ -131,8 +131,9 @@ export class SimpleModVersion {
 		return await versionManager.get(this.version);
 	}
 
-	async getDownloadData(): Promise<Blob> {
-		return this.manager.index.repository.getModDownloadData(this.modId, this.version);
+	async getDownloadLink(): Promise<URL> {
+		const url = await this.manager.index.repository.getModDownloadLink(this.modId, this.version);
+		return new URL(url);
 	}
 }
 
@@ -220,8 +221,14 @@ export class ModVersion {
 		this.handleDependencies(data);
 	}
 
-	async getDownloadData(): Promise<Blob> {
-		return this.manager.index.repository.getModDownloadData(this.modId, this.version);
+	/**
+	 * Gets a mod's direct download link with proper authentication.
+	 * This is counted as a download, so don't run this unless you intend to trigger one.
+	 * @returns The URL to the mod's direct download
+	 */
+	async getDownloadLink(): Promise<URL> {
+		const url = await this.manager.index.repository.getModDownloadLink(this.modId, this.version);
+		return new URL(url);
 	}
 
 	private handleDependencies(data: ModVersionMeta) {

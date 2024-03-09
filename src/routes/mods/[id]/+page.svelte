@@ -33,7 +33,7 @@
 
 	let performingAction = false;
 
-	// let performingDownloadAction = false;
+	let performingDownloadAction = false;
 	let performingFeatureAction = false;
 	let performingAcceptAction = false;
 	let performingRejectAction = false;
@@ -107,7 +107,6 @@
 	}
 	*/
 
-	/*
 	async function triggerInvalidModDownload() {
 		if (!mod || !version) {
 			return;
@@ -116,18 +115,8 @@
 		performingDownloadAction = true;
 
 		try {
-			const data = await version.getDownloadData();
-			const url = URL.createObjectURL(data);
-
-			// so unsvelte-like
-			const downloadLink = document.createElement('a');
-			downloadLink.style.display = 'none';
-			downloadLink.href = url;
-			downloadLink.download = `${mod.id}.geode`;
-
-			downloadLink.click();
-
-			URL.revokeObjectURL(url);
+			const downloadLink = await version.getDownloadLink();
+			window.location.assign(downloadLink);
 		} catch (e) {
 			if (e instanceof Error) {
 				actionError = e.message;
@@ -138,7 +127,6 @@
 
 		performingDownloadAction = false;
 	}
-	*/
 
 	async function updateVersion() {
 		if (mod == null) {
@@ -234,10 +222,21 @@
 				</div>
 
 				<div class="flex flex-row gap-1 flex-wrap">
-					<Button href={version.downloadLink}>
-						<Fa icon={faDownload} class="inline pr-1" />
-						Download
-					</Button>
+					{#if version.validated || version.validated === undefined}
+						<Button href={version.downloadLink}>
+							<Fa icon={faDownload} class="inline mr-1" />
+							Download
+						</Button>
+					{:else}
+						<Button on:click={triggerInvalidModDownload} disabled={performingDownloadAction}>
+							{#if performingDownloadAction}
+								<Fa icon={faSpinner} class="mr-1 inline" spin />
+							{:else}
+								<Fa icon={faDownload} class="inline mr-1" />
+							{/if}
+							Download
+						</Button>
+					{/if}
 					{#if currentUser?.admin}
 						<Button variant="secondary" disabled={performingAction} on:click={performFeature}>
 							{#if performingFeatureAction}

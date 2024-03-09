@@ -198,8 +198,8 @@ export class IndexRepositoryLive extends IndexRepository {
 		}
 	}
 
-	getModLogo(id: ModID): string {
-		return `${BASE_URL}/v1/mods/${id}/logo`;
+	getModLogo(id: ModID): URL {
+		return new URL(`${BASE_URL}/v1/mods/${id}/logo`);
 	}
 
 	async getModLogoData(id: string): Promise<Blob> {
@@ -221,16 +221,17 @@ export class IndexRepositoryLive extends IndexRepository {
 		return r.blob();
 	}
 
-	getModLatestDownload(id: string): string {
-		return `${BASE_URL}/v1/mods/${id}/versions/latest/download`;
+	getModLatestDownload(id: string): URL {
+		return new URL(`${BASE_URL}/v1/mods/${id}/versions/latest/download`);
 	}
 
-	getModDownload(id: string, version: string): string {
-		return `${BASE_URL}/v1/mods/${id}/versions/${version}/download`;
+	getModDownload(id: string, version: string): URL {
+		return new URL(`${BASE_URL}/v1/mods/${id}/versions/${version}/download`);
 	}
 
-	async getModLatestDownloadData(id: string): Promise<Blob> {
+	async getModLatestDownloadLink(id: string): Promise<string> {
 		const downloadUrl = this.getModLatestDownload(id);
+		downloadUrl.searchParams.set('no_redirect', 'true');
 
 		const r = await fetch(downloadUrl, {
 			headers: this.token
@@ -240,18 +241,15 @@ export class IndexRepositoryLive extends IndexRepository {
 				: undefined
 		});
 
-		if (r.status != 200) {
-			const data: BaseRequest<void> = await r.json();
-			throw new IndexError(data.error);
-		}
-
-		return r.blob();
+		const data = await r.json();
+		return this.validate<string>(data);
 	}
 
-	async getModDownloadData(id: string, version: string): Promise<Blob> {
-		const logoUrl = this.getModDownload(id, version);
+	async getModDownloadLink(id: string, version: string): Promise<string> {
+		const downloadUrl = this.getModDownload(id, version);
+		downloadUrl.searchParams.set('no_redirect', 'true');
 
-		const r = await fetch(logoUrl, {
+		const r = await fetch(downloadUrl, {
 			headers: this.token
 				? {
 						Authorization: `Bearer ${this.token}`
@@ -259,12 +257,8 @@ export class IndexRepositoryLive extends IndexRepository {
 				: undefined
 		});
 
-		if (r.status != 200) {
-			const data: BaseRequest<void> = await r.json();
-			throw new IndexError(data.error);
-		}
-
-		return r.blob();
+		const data = await r.json();
+		return this.validate<string>(data);
 	}
 
 	async beginLoginFlow(): Promise<BeginLoginInfo> {

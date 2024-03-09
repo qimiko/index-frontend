@@ -38,7 +38,7 @@
 		{ label: 'Recently Updated', value: ModSort.RecentlyUpdated },
 		{ label: 'Recently Published', value: ModSort.RecentlyPublished },
 		{ label: 'Name', value: ModSort.Name },
-		{ label: 'Name Reverse', value: ModSort.NameReverse }
+		{ label: 'Name (Reversed)', value: ModSort.NameReverse }
 	];
 
 	let modSort = validSorts[0];

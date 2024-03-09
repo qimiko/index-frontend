@@ -79,14 +79,14 @@ export abstract class IndexRepository {
 		body: UpdateVersionBody
 	): Awaitable<void>;
 
-	abstract getModLogo(id: ModID): string;
+	abstract getModLogo(id: ModID): URL;
 	abstract getModLogoData(id: ModID): Awaitable<Blob>;
 
-	abstract getModLatestDownload(id: ModID): string;
-	abstract getModDownload(id: ModID, version: ModVersionString): string;
+	abstract getModLatestDownload(id: ModID): URL;
+	abstract getModDownload(id: ModID, version: ModVersionString): URL;
 
-	abstract getModLatestDownloadData(id: ModID): Awaitable<Blob>;
-	abstract getModDownloadData(id: ModID, version: ModVersionString): Awaitable<Blob>;
+	abstract getModLatestDownloadLink(id: ModID): Awaitable<string>;
+	abstract getModDownloadLink(id: ModID, version: ModVersionString): Awaitable<string>;
 
 	abstract getSelf(): Awaitable<DeveloperMeta>;
 	abstract updateSelf(body: UpdateSelfBody): Awaitable<void>;
