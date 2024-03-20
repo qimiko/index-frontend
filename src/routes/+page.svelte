@@ -98,11 +98,6 @@
 
 		mods = [];
 
-		if (filtersChanged) {
-			currentPage = 1;
-			filtersChanged = false;
-		}
-
 		try {
 			const options = parseQuery();
 
@@ -151,8 +146,11 @@
 		updateQuery(pageQuery);
 	}
 
-	let filtersChanged = false;
-	$: modSort, showPending, modQuery, (filtersChanged = true);
+	function onFiltersChanged() {
+		currentPage = 1;
+	}
+
+	$: modSort, showPending, modQuery, onFiltersChanged();
 	$: modSort, showPending, modQuery, currentPage, loadMods();
 
 	let currentUser = $user;
