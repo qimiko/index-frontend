@@ -40,7 +40,6 @@
 		"bits-ui": "^0.19.5",
 		"clsx": "^2.1.0",
 		"compare-versions": "^6.1.0",
-		"mode-watcher": "^0.2.2",
 		"svelte-fa": "^4.0.2",
 		"svelte-markdown": "^0.4.1",
 		"tailwind-merge": "^2.2.1",
