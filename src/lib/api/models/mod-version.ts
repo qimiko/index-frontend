@@ -13,6 +13,8 @@ type GDVersionMeta =
 	  }
 	| string;
 
+export type ModStatus = 'accepted' | 'pending' | 'rejected' | 'unlisted';
+
 export interface ModVersionMeta {
 	name: string;
 	download_count: number;
@@ -27,7 +29,7 @@ export interface ModVersionMeta {
 	mod_id: ModID;
 	dependencies?: DependencyMeta[];
 	incompatibilities?: IncompatibilityMeta[];
-	validated?: boolean;
+	status: ModStatus;
 }
 
 export interface DependencyMeta {
@@ -62,7 +64,8 @@ export interface IncompatibilityMeta {
 
 enum IncompatibilityImportance {
 	Breaking = 'breaking',
-	Conflicting = 'conflicting'
+	Conflicting = 'conflicting',
+	Superseded = 'Superseeded'
 }
 
 export class Incompatibility {
@@ -187,7 +190,7 @@ export class ModVersion {
 	readonly downloadLink: string;
 	readonly downloadCount: number;
 
-	_validated?: boolean;
+	private _status: ModStatus;
 
 	incompatibilities?: Incompatibility[];
 	dependencies?: Dependency[];
@@ -216,7 +219,7 @@ export class ModVersion {
 		this.downloadLink = data.download_link;
 		this.downloadCount = data.download_count;
 		this.modId = data.mod_id;
-		this._validated = data.validated;
+		this._status = data.status;
 
 		this.handleDependencies(data);
 	}
@@ -265,23 +268,17 @@ export class ModVersion {
 		return this;
 	}
 
-	get validated() {
-		return this._validated;
+	get status() {
+		return this._status;
 	}
 
-	async setValidated(validated: boolean) {
+	async setStatus(status: ModStatus) {
 		await this.manager.index.repository.updateModVersion(this.modId, this.version, {
-			validated
+			status
 		});
 
 		// now we definitely know the status
-		this._validated = validated;
-	}
-
-	async setUnlisted(unlisted: boolean) {
-		await this.manager.index.repository.updateModVersion(this.modId, this.version, {
-			unlisted
-		});
+		this._status = status;
 	}
 }
 

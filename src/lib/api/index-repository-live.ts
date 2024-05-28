@@ -296,8 +296,8 @@ export class IndexRepositoryLive extends IndexRepository {
 
 	async getSelfMods(params?: GetSelfModsParams): Promise<SimpleModMeta[]> {
 		const url = new URL(`${BASE_URL}/v1/me/mods`);
-		if (params?.validated != null) {
-			url.searchParams.set('validated', params.validated ? 'true' : 'false');
+		if (params?.status != null) {
+			url.searchParams.set('status', params.status);
 		}
 
 		const r = await fetch(url, {

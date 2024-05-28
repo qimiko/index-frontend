@@ -79,7 +79,8 @@
 		}
 
 		try {
-			await version.setValidated(validated);
+			const status = validated ? 'accepted' : 'rejected';
+			await version.setStatus(status);
 			version = version;
 		} catch (e) {
 			if (e instanceof Error) {
@@ -222,7 +223,7 @@
 				</div>
 
 				<div class="flex flex-row gap-1 flex-wrap">
-					{#if version.validated || version.validated === undefined}
+					{#if version.status == 'accepted'}
 						<Button href={version.downloadLink}>
 							<Fa icon={faDownload} class="inline mr-1" />
 							Download
@@ -250,7 +251,7 @@
 								Feature
 							{/if}
 						</Button>
-						{#if !version.validated}
+						{#if version.status != 'accepted'}
 							<Button
 								variant="outline"
 								disabled={performingAction}
@@ -262,7 +263,7 @@
 								Accept
 							</Button>
 						{/if}
-						{#if version.validated || version.validated == undefined}
+						{#if version.status == 'accepted'}
 							<Button
 								variant="outline"
 								disabled={performingAction}

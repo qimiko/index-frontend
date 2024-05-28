@@ -6,7 +6,8 @@ import type {
 	ModVersionMeta,
 	ModVersionString,
 	Platform,
-	SimpleModMeta
+	SimpleModMeta,
+	ModStatus
 } from './models.js';
 
 type Awaitable<T> = Promise<T> | T;
@@ -50,8 +51,8 @@ export interface UpdateModBody {
 }
 
 export interface UpdateVersionBody {
-	validated?: boolean;
-	unlisted?: boolean;
+	status: ModStatus;
+	info?: string;
 }
 
 export interface UpdateSelfBody {
@@ -59,7 +60,7 @@ export interface UpdateSelfBody {
 }
 
 export interface GetSelfModsParams {
-	validated?: boolean;
+	status?: ModStatus;
 }
 
 export abstract class IndexRepository {

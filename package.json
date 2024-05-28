@@ -37,7 +37,7 @@
 	"dependencies": {
 		"@fortawesome/free-brands-svg-icons": "^6.5.1",
 		"@fortawesome/free-solid-svg-icons": "^6.5.1",
-		"bits-ui": "^0.19.5",
+		"bits-ui": "^0.21.10",
 		"clsx": "^2.1.0",
 		"compare-versions": "^6.1.0",
 		"svelte-fa": "^4.0.2",

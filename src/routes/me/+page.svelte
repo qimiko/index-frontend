@@ -89,7 +89,8 @@
 		selfModListing = [];
 
 		try {
-			selfModListing = await index.mods.bySelf({ validated: !showNeedsValidation });
+			const mod_status = showNeedsValidation ? 'pending' : undefined;
+			selfModListing = await index.mods.bySelf({ status: mod_status });
 		} catch (_) {
 			// ...
 		}
