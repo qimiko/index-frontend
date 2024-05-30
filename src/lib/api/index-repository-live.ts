@@ -328,7 +328,6 @@ export class IndexRepositoryLive extends IndexRepository {
 	}
 
 	async deleteToken(): Promise<void> {
-		this.token = null;
 		const r = await fetch(`${BASE_URL}/v1/me/token`, {
 			headers: new Headers({
 				Authorization: `Bearer ${this.token}`
@@ -340,11 +339,11 @@ export class IndexRepositoryLive extends IndexRepository {
 			const data: BaseRequest<void> = await r.json();
 			throw new IndexError(data.error);
 		}
+
+		this.token = null;
 	}
 
 	async deleteAllTokens(): Promise<void> {
-		this.token = null;
-
 		const r = await fetch(`${BASE_URL}/v1/me/tokens`, {
 			headers: new Headers({
 				Authorization: `Bearer ${this.token}`
@@ -356,5 +355,7 @@ export class IndexRepositoryLive extends IndexRepository {
 			const data: BaseRequest<void> = await r.json();
 			throw new IndexError(data.error);
 		}
+
+		this.token = null;
 	}
 }
