@@ -101,10 +101,12 @@
 		try {
 			const options = parseQuery();
 
+			const status = showPending ? 'pending' : undefined;
+
 			const { data, count } = await index.mods.search({
 				page: currentPage,
-				pendingValidation: showPending,
 				sort: modSort.value,
+				status,
 				...options
 			});
 
@@ -184,17 +186,15 @@
 				</Select.Content>
 			</Select.Root>
 
-			{#if currentUser?.admin}
-				<div class="flex flex-row gap-1 items-center">
-					<Checkbox id="filter-unverified" bind:checked={showPending} />
-					<Label
-						for="filter-unverified"
-						class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-					>
-						Show unverified mods
-					</Label>
-				</div>
-			{/if}
+			<div class="flex flex-row gap-1 items-center">
+				<Checkbox id="filter-unverified" bind:checked={showPending} />
+				<Label
+					for="filter-unverified"
+					class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+				>
+					Show unverified mods
+				</Label>
+			</div>
 		</div>
 
 		{#if loadError}

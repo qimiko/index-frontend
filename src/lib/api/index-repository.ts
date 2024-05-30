@@ -36,7 +36,7 @@ export enum ModSort {
 export interface ModSearchParams {
 	page?: number;
 	developer?: string;
-	pendingValidation?: boolean;
+	status?: ModStatus;
 	featured?: boolean;
 	perPage?: number;
 	tags?: string[];

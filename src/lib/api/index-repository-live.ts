@@ -60,9 +60,12 @@ export class IndexRepositoryLive extends IndexRepository {
 			url.searchParams.set('developer', searchParams.developer);
 		}
 
-		if (searchParams?.pendingValidation) {
-			url.searchParams.set('pending_validation', 'true');
-			requiresAuth = true;
+		if (searchParams?.status) {
+			url.searchParams.set('status', searchParams.status);
+
+			if (searchParams.status == 'rejected') {
+				requiresAuth = true;
+			}
 		}
 
 		if (searchParams?.featured != null) {
