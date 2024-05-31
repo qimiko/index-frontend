@@ -8,16 +8,15 @@
 	export let modId: ModID;
 
 	const index = IndexService.getContext();
-	let logoData: string | null = null;
+	let logoUrl: string | null = null;
 
 	onMount(async () => {
 		const mod = await index.mods.get(modId, true);
-		const data = await mod.getLogoData();
-		logoData = URL.createObjectURL(data);
+		logoUrl = mod.getLogoUrl().toString();
 	});
 </script>
 
-<object data={logoData} type="image/png" title="mod icon" class={cn('mod-icon', $$props.class)}>
+<object data={logoUrl} type="image/png" title="mod icon" class={cn('mod-icon', $$props.class)}>
 	<img src={placeholderLogo} alt="default mod icon" class={cn('mod-icon', $$props.class)} />
 </object>
 
